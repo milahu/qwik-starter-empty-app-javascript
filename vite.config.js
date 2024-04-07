@@ -2,22 +2,22 @@
  * This is the base config for vite.
  * When building, the adapter config is used which loads this file and extends it.
  */
-import { defineConfig, type UserConfig } from "vite";
+import { defineConfig, } from "vite";
 import { qwikVite } from "@builder.io/qwik/optimizer";
 import { qwikCity } from "@builder.io/qwik-city/vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import pkg from "./package.json";
 
-const { dependencies = {}, devDependencies = {} } = pkg as any as {
-  dependencies: Record<string, string>;
-  devDependencies: Record<string, string>;
-  [key: string]: unknown;
-};
+const { dependencies = {}, devDependencies = {} } = pkg 
+
+
+
+;
 
 /**
  * Note that Vite normally starts from `index.html` but the qwikCity plugin makes start at `src/entry.ssr.tsx` instead.
  */
-export default defineConfig(({ command, mode }): UserConfig => {
+export default defineConfig(({ command, mode }) => {
   return {
     plugins: [qwikCity(), qwikVite(), tsconfigPaths()],
     // This tells Vite which dependencies to pre-build in dev mode.
