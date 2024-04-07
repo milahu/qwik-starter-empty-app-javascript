@@ -10,7 +10,7 @@
  * - Optimizer/Serialization/Deserialization code is not exercised!
  */
 import { render, } from "@builder.io/qwik";
-import Root from "./root";
+import Root from "./root.jsx";
 
 export default function (opts) {
   return render(document, <Root />, opts);

@@ -5,21 +5,39 @@
 import { defineConfig, } from "vite";
 import { qwikVite } from "@builder.io/qwik/optimizer";
 import { qwikCity } from "@builder.io/qwik-city/vite";
-import tsconfigPaths from "vite-tsconfig-paths";
 import pkg from "./package.json";
 
-const { dependencies = {}, devDependencies = {} } = pkg 
-
-
-
-;
+const { dependencies = {}, devDependencies = {} } = pkg;
 
 /**
  * Note that Vite normally starts from `index.html` but the qwikCity plugin makes start at `src/entry.ssr.tsx` instead.
  */
 export default defineConfig(({ command, mode }) => {
   return {
-    plugins: [qwikCity(), qwikVite(), tsconfigPaths()],
+    clearScreen: false,
+    plugins: [
+      qwikCity(),
+      qwikVite({
+        // fix: Error: Qwik input "src/entry.ssr.tsx" not found.
+        //input: "src/entry.ssr.tsx", // default
+        // https://github.com/BuilderIO/qwik/issues/6100
+        // npm run build
+        client: {
+          input: "src/root.jsx",
+        },
+        // npm run dev
+        ssr: {
+          input: "src/entry.ssr.jsx",
+        },
+        dev: {
+          input: "src/entry.dev.jsx",
+        },
+        // npm run build.preview
+        preview: {
+          input: "src/entry.preview.jsx",
+        },
+      }),
+    ],
     // This tells Vite which dependencies to pre-build in dev mode.
     optimizeDeps: {
       // Put problematic deps that break bundling here, mostly those with binaries.
